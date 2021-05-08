@@ -208,7 +208,18 @@ To dev1 ;
    - **Révoquer tous les privilèges associès à l'utilisateur dev1 :** 
 
 ```sql
----
+revoke
+Create procedure,
+Create view,
+Create sequence,
+Create session,
+Create any table,
+Select any table,
+Alter any table,
+Drop any table
+from dev1 ;
+
+
 ```
 
  
@@ -231,13 +242,35 @@ To dev1 ;
      C) Le rôle de l'équipe DevSecOps permet d'avoir tous les privilèges avec mode administrateur de la base:  
 
 ```sql
----
+CREATE ROLE dev ;
+
+GRANT 
+Create procedure,
+Create view,
+Create sequence,
+Create session,
+Create any table,
+Select any table,
+Alter any table,
+Drop any table
+To dev ;
+
 ```
 ```sql
----
+CREATE ROLE tester ;
+
+GRANT 
+Connect,
+Create session,
+Select any table
+To tester ;
+
 ```
 ```sql
----
+CREATE ROLE devsecops ;
+
+GRANT DBA To devsecops ;
+
 ```
 ```sql
 ---
