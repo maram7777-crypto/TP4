@@ -272,9 +272,7 @@ CREATE ROLE devsecops ;
 GRANT DBA To devsecops ;
 
 ```
-```sql
----
-```
+
 
 
  
@@ -282,25 +280,42 @@ GRANT DBA To devsecops ;
   
 
 ```sql
----
+Grant dev 
+to dev1 ;
+
+grant dev
+to dev2 ;
+
 ```
 ```sql
----
+Grant tester to tester1 ;
+
+Grant tester to tester2 ;
+
 ```
 ```sql
----
+Grant devsecops to devsecops1 ;
+
+Grant devsecops to devsecops2 ;
+
 ```
 
    - **Limiter l'accès pour les testeurs de sorte qu'ils n'accèdent qu'à la table des employés "EMP":** 
   
 
 ```sql
----
+Revoke 
+Create session,
+Select any table from tester ;
+
+Grant 
+select on emp 
+to tester ;
+
+
 ```
 
- ```sql
----
-```
+ 
  
  
  
@@ -308,7 +323,10 @@ GRANT DBA To devsecops ;
   
 
  ```sql
----
+grant 
+select on emp 
+to public ;
+
 ```
 
 **Retirer les privilèges attribuées aux admins, ainsi que les utilisateurs qui ont reçu leurs privilèges sur la table EMP par un membre de l'équipe devsecops:**
@@ -316,7 +334,10 @@ GRANT DBA To devsecops ;
  
  
 ```sql
----
+Revoke
+All privileges on emp
+From devsecops ;
+
 ```
 
 
@@ -334,7 +355,17 @@ GRANT DBA To devsecops ;
 
 
 ```sql 
----
+Create profile dev limit
+Sessions_per_user unlimited
+Cpu_per_session 10000
+Cpu_per_call 1000
+Connect_time 45
+Logical_reads_per_session default
+Logical_reads_per_call 1000
+Private_SGA 25k
+Password_life_time 60
+Password_reuse_time 10 ;
+
 ```
 
 
@@ -351,7 +382,17 @@ GRANT DBA To devsecops ;
   * ***Durée de vie en jours du mot de passe:*** ***60***
   * ***Nombre maximal de réutilisations de mot de passe:*** ***10***
 ```sql 
----
+Create profile test limit
+Sessions_per_user 5
+Cpu_per_session unlimited
+Cpu_per_call 3000
+Connect_time 45
+Logical_reads_per_session default
+Logical_reads_per_call 1000
+Private_SGA 25k
+Password_life_time 60
+Password_reuse_time 10 ;
+
 ```
 
 **Créer un profile de ressources dédié à l'équipe devsecops avec les limitations suivantes:**
@@ -366,11 +407,23 @@ GRANT DBA To devsecops ;
   * ***Nombre maximal de réutilisations de mot de passe:*** ***10***
 
 ```sql 
----
+Create profile devsecops limit
+Sessions_per_user unlimited
+Cpu_per_session unlimited
+Cpu_per_call 3000
+Connect_time 3600
+Logical_reads_per_session default
+Logical_reads_per_call 5000
+Private_SGA 80k
+Password_life_time 60
+Password_reuse_time 10 ;
+
 ```
 
   - **Attribuer à l'utilisateur "dev1", le profile qui lui correspond:** 
 ```sql
----
+Alter USER dev1
+PROFILE dev ;
+
 ```
 
