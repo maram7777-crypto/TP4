@@ -189,7 +189,17 @@ ________________________________________________________________________________
      * Création,lecture, modification de structure et suppression de tables.
 
 ```sql
----
+GRANT 
+Create procedure,
+Create view,
+Create sequence,
+Create session,
+Create any table,
+Select any table,
+Alter any table,
+Drop any table
+To dev1 ;
+
 ```
 
 ¤   **Une fois qu'un utilisateur est créé, le DBA peut octroyer des privilèges de système spécifiques à cet utilisateur.**
